@@ -5,7 +5,7 @@ services:
     api:
         build: ./docker/app
         ports:
-            - 80:80
+          - 8000:8000
         environment:
             - DB_URL=mongodb://db/myTestDB
         volumes:
@@ -19,6 +19,6 @@ services:
         ports:
             - 27017:27017
         volumes:
-            - taskdb:/data/db
+            - datavolume:/data/db
 volumes:
-    taskdb:
+    datavolume:
