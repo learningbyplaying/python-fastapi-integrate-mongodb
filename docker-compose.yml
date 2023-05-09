@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+
+    api:
+        build: ./docker/app
+        ports:
+            - 80:80
+        environment:
+            - DB_URL=mongodb://db/myTestDB
+        volumes:
+            - ./app:/app
+
+        command: uvicorn main:app --host 0.0.0.0 --reload
+        #command: sleep infinity
+
+    db:
+        image: mongo
+        ports:
+            - 27017:27017
+        volumes:
+            - taskdb:/data/db
+volumes:
+    taskdb:
