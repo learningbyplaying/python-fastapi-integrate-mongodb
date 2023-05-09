@@ -3,22 +3,29 @@ version: "3.8"
 services:
 
     api:
-        build: ./docker/app
-        ports:
-          - 8000:8000
-        environment:
-            - DB_URL=mongodb://db/myTestDB
-        volumes:
-            - ./app:/app
+      build: ./docker/app
+      ports:
+        - 8000:8000
+      environment:
+        - DB_URL=mongodb://db/test_db
+      volumes:
+        - ./app:/app
 
-        command: uvicorn main:app --host 0.0.0.0 --reload
-        #command: sleep infinity
+      command: uvicorn main:app --host 0.0.0.0 --reload
+      #command: sleep infinity
+      depends_on:
+        - db
 
     db:
-        image: mongo
-        ports:
-            - 27017:27017
-        volumes:
-            - datavolume:/data/db
-volumes:
-    datavolume:
+      image: mongo:latest
+      container_name: dbmongo
+      ports:
+        - 27017:27017
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: rootpassword
+
+      restart: always
+      volumes:
+        - ./data:/data/db
+        - ./data/log:/data/log/mongodb
