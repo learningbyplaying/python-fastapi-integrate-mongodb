@@ -1,15 +1,18 @@
 from fastapi import FastAPI
-from config.db import conn
+import db
 
 app = FastAPI()
-
-from modules.users.router import UserRouter
-#print(app)
-
-
-router = UserRouter(conn)
-app.include_router(router.router)
 
 @app.get("/")
 def read_root():
     return {"Hello":"World"}
+
+@app.get("/all")
+def get_all():
+    data = db.all()
+    return {"data": data}
+
+@app.post("/create")
+def create(data):
+    id = db.create(data)
+    return {'inserted': True, "inserted_id": id}
