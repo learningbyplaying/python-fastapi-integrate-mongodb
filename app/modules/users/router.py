@@ -1,13 +1,20 @@
 from fastapi import APIRouter
 
+from .schemas import userEntity, usersEntity
+
 class UserRouter:
 
-    def __init__(self,domain=None) -> None: #, domain: CleanerDomain) -> None:
-        self.__domain = domain
+    def __init__(self,conn) -> None:
+        self.__conn = conn
 
     @property
     def router(self):
         api_router = APIRouter(prefix='/users', tags=['Users']) # Optional
+
+        @api_router.get('/')
+        def find_all(  user: str ):
+            print(list(conn.local.user.find()))
+            return {"User":"id"}
 
         @api_router.get('/{user}')
         def get(  user: str ):

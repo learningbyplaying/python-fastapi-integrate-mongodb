@@ -1,10 +1,13 @@
 from fastapi import FastAPI
+from config.db import conn
 
 app = FastAPI()
 
 from modules.users.router import UserRouter
 #print(app)
-router = UserRouter()
+
+
+router = UserRouter(conn)
 app.include_router(router.router)
 
 @app.get("/")
