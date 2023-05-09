@@ -13,8 +13,8 @@ class UserRouter:
 
         @api_router.get('/')
         def find_all(  user: str ):
-            print(list(conn.local.user.find()))
-            return {"User":"id"}
+            #print(list(conn.local.user.find()))
+            return usersEntity(conn.local.user.find())
 
         @api_router.get('/{user}')
         def get(  user: str ):
